@@ -17,7 +17,6 @@
           "settings": {
             "media_type_1": "image",
             "image_1": "shopify://shop_images/LINHA-MAES-DESKTOP.webp",
-            "image_mobile": "shopify://shop_images/Logo_Shaun_1.avif",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
