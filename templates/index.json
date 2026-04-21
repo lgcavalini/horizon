@@ -17,7 +17,6 @@
           "settings": {
             "media_type_1": "image",
             "image_1": "shopify://shop_images/LINHA-MAES-DESKTOP.webp",
-            "image_mobile": "shopify://shop_images/Logo_Shaun_1.avif",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -39,12 +38,11 @@
           },
           "blocks": {}
         },
-        "slide_6Hbkyt": {
+        "slide_PMxDM7": {
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify://shop_images/banner-esfoliante_2800-1000.webp",
-            "image_mobile": "shopify://shop_images/339da34acfe99c3b636afe62ca52e9b0.png",
+            "image_1": "shopify://shop_images/GELEIA-ABRIL-DESKTOP.webp",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -69,7 +67,7 @@
       },
       "block_order": [
         "slide_KQwbwN",
-        "slide_6Hbkyt"
+        "slide_PMxDM7"
       ],
       "name": "t:names.slideshow_full_frame",
       "settings": {
@@ -78,7 +76,7 @@
         "full_frame_on_mobile": false,
         "slideshow_gap": 12,
         "corner_radius": 0,
-        "slide_height": "adapt_image",
+        "slide_height": "medium",
         "content_position": "on-media",
         "color_scheme": "",
         "icons_style": "arrow",
