@@ -37,8 +37,11 @@
         assign media_width_desktop = '100vw'
         assign media_width_mobile = '100vw'
         assign sizes = '(min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
+        assign sizes_mobile = media_width_mobile
         assign lazy_sizes = 'auto, ' | append: sizes
         assign widths = '832, 1200, 1600, 1920, 2560, 3840'
+        assign mobile_widths = '416, 600, 800, 1200, 1600'
+        assign mobile_widths_array = mobile_widths | split: ', '
       %}
 
       {%- liquid
@@ -56,13 +59,8 @@
       -%}
 
       {%- if block_settings.media_type_1 == 'image' -%}
-        {%- if block_settings.image_mobile -%}
-          {%- liquid
-            assign mobile_widths = '416, 600, 800, 1200, 1600'
-            assign mobile_widths_array = mobile_widths | split: ', '
-            assign sizes_mobile = '100vw'
-          -%}
-          <picture>
+        {%- if block_settings.image_mobile != blank -%}
+          <picture class="slide__image">
             <source
               media="(max-width: 749px)"
               srcset="
@@ -77,14 +75,26 @@
             {{
               block_settings.image_1
               | image_url: width: 3840
-              | image_tag: height: height, sizes: sizes, widths: widths, class: 'slide__image', loading: loading, fetchpriority: fetchpriority
+              | image_tag:
+                height: height,
+                sizes: sizes,
+                widths: widths,
+                class: 'slide__image',
+                loading: loading,
+                fetchpriority: fetchpriority
             }}
           </picture>
         {%- else -%}
           {{
             block_settings.image_1
             | image_url: width: 3840
-            | image_tag: height: height, sizes: sizes, widths: widths, class: 'slide__image', loading: loading, fetchpriority: fetchpriority
+            | image_tag:
+              height: height,
+              sizes: sizes,
+              widths: widths,
+              class: 'slide__image',
+              loading: loading,
+              fetchpriority: fetchpriority
           }}
         {%- endif -%}
       {%- else -%}
@@ -171,12 +181,19 @@
     position: absolute;
   }
 
+  .slide__image-container > picture.slide__image,
   .slide__image-container > .slide__image,
   .slide__image-container > .slide__video,
   .slide__image-container > .slide__video-poster {
     position: relative;
     width: 100%;
     height: 100%;
+  }
+
+  .slide__image-container > .slide__image,
+  .slide__image-container > picture.slide__image > img.slide__image,
+  .slide__image-container > .slide__video,
+  .slide__image-container > .slide__video-poster {
     object-fit: cover;
     object-position: center center;
   }
