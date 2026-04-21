@@ -14,33 +14,12 @@
       assign rounded_image_corners = true
     endif
   %}
-  {% if section.settings.slide_height == 'auto' and block_index == 0 %}
-    {%- if preview_image != blank -%}
-      {% style %}
-        @media screen and (min-width: 750px) {
-          .shopify-section-{{ section.id }} slideshow-slides,
-          .shopify-section-{{ section.id }} slideshow-slide {
-            min-height: {{ 1 | divided_by: preview_image.aspect_ratio | times: 100 }}vw;
-          }
-        }
-      {% endstyle %}
-    {%- endif -%}
-    {%- assign mobile_adapt_image = block_settings.image_mobile | default: preview_image -%}
-    {%- if mobile_adapt_image != blank -%}
-      {% style %}
-        @media screen and (max-width: 749px) {
-          .shopify-section-{{ section.id }} slideshow-slides,
-          .shopify-section-{{ section.id }} slideshow-slide {
-            min-height: {{ 1 | divided_by: mobile_adapt_image.aspect_ratio | times: 100 }}vw;
-          }
-        }
-      {% endstyle %}
-    {%- endif -%}
-  {% endif %}
-
   <div class="slide__image-container{% if rounded_image_corners %} slide__image-container--rounded{% endif %}">
     {%- if block_settings.toggle_overlay -%}
       {% render 'overlay', settings: block_settings %}
+    {%- endif -%}
+    {%- if block_settings.link != blank -%}
+      <a href="{{ block_settings.link }}" class="slide__link" aria-hidden="true" tabindex="-1"></a>
     {%- endif -%}
     {%- if preview_image -%}
       {%- liquid
@@ -144,6 +123,28 @@
   </div>
 {% endcapture %}
 
+{%- if section.settings.slide_height == 'auto' and block_index == 0 -%}
+  {%- if preview_image != blank -%}
+    {% style %}
+      @media screen and (min-width: 750px) {
+        .shopify-section-{{ section.id }} slideshow-slide {
+          aspect-ratio: {{ preview_image.width }} / {{ preview_image.height }};
+        }
+      }
+    {% endstyle %}
+  {%- endif -%}
+  {%- assign mobile_adapt_image = block_settings.image_mobile | default: preview_image -%}
+  {%- if mobile_adapt_image != blank -%}
+    {% style %}
+      @media screen and (max-width: 749px) {
+        .shopify-section-{{ section.id }} slideshow-slide {
+          aspect-ratio: {{ mobile_adapt_image.width }} / {{ mobile_adapt_image.height }};
+        }
+      }
+    {% endstyle %}
+  {%- endif -%}
+{%- endif -%}
+
 {%- capture class -%}
   {%- if block_settings.inherit_color_scheme == false -%}
     color-{{ block_settings.color_scheme }}
@@ -208,6 +209,21 @@
 
   .slide__image-container > .slide__video-poster {
     position: absolute;
+  }
+
+  .slide__link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  slideshow-slide:has(.slide__link) .slide__content {
+    pointer-events: none;
+  }
+
+  slideshow-slide:has(.slide__link) .slide__content a,
+  slideshow-slide:has(.slide__link) .slide__content button {
+    pointer-events: auto;
   }
 {% endstylesheet %}
 
@@ -276,6 +292,11 @@
       "label": "Imagem para mobile",
       "info": "Exibida em telas menores que 750px. Se não definida, a imagem principal será usada.",
       "visible_if": "{{ block.settings.media_type_1 == 'image' }}"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
     },
     {
       "type": "video",
