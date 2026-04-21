@@ -14,7 +14,7 @@
       assign rounded_image_corners = true
     endif
   %}
-  {% if section.settings.slide_height == 'adapt_image' and block_index == 0 %}
+  {% if section.settings.slide_height == 'auto' and block_index == 0 %}
     {%- if preview_image != blank -%}
       {% style %}
         @media screen and (min-width: 750px) {
